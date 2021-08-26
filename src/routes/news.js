@@ -1,51 +1,101 @@
 const express = require('express')
 const newsRouter = express.Router()
 const axios = require('axios')
-// https://raddy.co.uk/wp-json/wp/v2/posts/
+const url =`https://raddy.co.uk/wp-json/wp/v2/posts/`
+//     `https://jsonplaceholder.typicode.com/comments`
+// const url =`https://newsapi.org/v2/top-headlines?country=us&apiKey=86c7427b19bc447aa64c4f2802cbb81c`
 
 
 newsRouter.get('', async(req, res) => {
     try {
-        const newsAPI = await axios.get(`https://jsonplaceholder.typicode.com/comments`)
-        res.render('news', { comments : newsAPI.data })
+        const newsAPI = await axios.get(url)
+        // console.log(newsAPI.data)
+        res.render('news', { articles : newsAPI.data })
     } catch (err) {
         if(err.response) {
-            res.render('news', { comments : null })
+            res.render('news', { articles : null })
             console.log(err.response.data)
             console.log(err.response.status)
             console.log(err.response.headers)
         } else if(err.request) {
-            res.render('news', { comments : null })
+            res.render('news', { articles : null })
             console.log(err.requiest)
         } else {
-            res.render('news', { comments : null })
+            res.render('news', { articles : null })
             console.error('Error', err.message)
         }
-    } 
+    }
 })
-                // pt ca am trecut aici :id( : sunt importante)
-newsRouter.get('/comment/:id', async(req, res) => {
-    // folosesc si aici id
-    let articleID = req.params.id;
+newsRouter.get('/:id', async(req, res) => {
+    let articleID = req.params.id
 
     try {
-        const newsAPI = await axios.get(`https://jsonplaceholder.typicode.com/comments/${articleID}`)
-        res.render('newsSingle', { comment : newsAPI.data })
+        const newsAPI = await axios.get(`https://newsapi.org/v2/top-headlines?country=us&apiKey=86c7427b19bc447aa64c4f2802cbb81c${articleID}`)
+        res.render('newsSingle', { article : newsAPI.data })
     } catch (err) {
         if(err.response) {
-            res.render('newsSingle', { comment : null })
+            res.render('newsSingle', { article : null })
             console.log(err.response.data)
             console.log(err.response.status)
             console.log(err.response.headers)
-        } else if(err.request) {
-            res.render('newsSingle', { comment : null })
-            console.log(err.request)
+        } else if(err.requiest) {
+            res.render('newsSingle', { article : null })
+            console.log(err.requiest)
         } else {
-            res.render('newsSingle', { comment : null })
+            res.render('newsSingle', { article : null })
             console.error('Error', err.message)
         }
-    } 
+    }
 })
+
+
+newsRouter.post('', async(req, res) => {
+    let search = req.body.search
+    try {
+        const newsAPI = await axios.get(`https://raddy.co.uk/wp-json/wp/v2/posts?search=${search}`)
+        res.render('newsSearch', { articles : newsAPI.data })
+    } catch (err) {
+        if(err.response) {
+            res.render('newsSearch', { articles : null })
+            console.log(err.response.data)
+            console.log(err.response.status)
+            console.log(err.response.headers)
+        } else if(err.requiest) {
+            res.render('newsSearch', { articles : null })
+            console.log(err.requiest)
+        } else {
+            res.render('newsSearch', { articles : null })
+            console.error('Error', err.message)
+        }
+    }
+})
+
+
+
+
+// pt ca am trecut aici :id( : sunt importante)
+// newsRouter.get('/comment/:id', async(req, res) => {
+//     // folosesc si aici id
+//     let articleID = req.params.id;
+//
+//     try {
+//         const newsAPI = await axios.get(`https://jsonplaceholder.typicode.com/comments/${articleID}`)
+//         res.render('newsSingle', { comment : newsAPI.data })
+//     } catch (err) {
+//         if(err.response) {
+//             res.render('newsSingle', { comment : null })
+//             console.log(err.response.data)
+//             console.log(err.response.status)
+//             console.log(err.response.headers)
+//         } else if(err.request) {
+//             res.render('newsSingle', { comment : null })
+//             console.log(err.request)
+//         } else {
+//             res.render('newsSingle', { comment : null })
+//             console.error('Error', err.message)
+//         }
+//     }
+// })
 
 
 // newsRouter.post('', async(req, res) => {
@@ -70,4 +120,5 @@ newsRouter.get('/comment/:id', async(req, res) => {
 // })
 
 
-module.exports = newsRouter 
+module.exports = newsRouter ;
+

@@ -13,20 +13,15 @@
         <%- include('./partials/search.ejs') %>
     </header>
 
+
     <div class="wrapper">
         <div class="news">
-            <% if(comments != null) { %>
-            <% comments.forEach(function(comment, index) { %>
-                <a href="/comment/<%- comment.id %>" class="news__card">
-                    <h2><%- comment.name %></h2>
-                    <p><%- comment.body %></p>
-                </a>
-            <% }) %>
-            <% } else { %>
-                No posts found.
-            <% } %>
+            <%console.log(articles) %>
+                <%articles.map((el)=>{ %>
+                    return <p> <%-el.title.rendered%> </p>
+               <% }) %>
         </div>
-    </div>  
+    </div>
 </body>
 </html>
 
