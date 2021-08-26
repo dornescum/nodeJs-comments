@@ -15,15 +15,14 @@
 
     <div class="wrapper">
         <div class="news-single">
-                <a href="/">&larr;- Back</a>
-                <% if(comment != null) { %>
-                    <h2><%- comment.name %></h2>
-                    <p><%- comment.email %></p>
-                    <p><%- comment.body %></p>
-                <% } else { %>
-                    No posts found.
-                <% } %>
+            <a href="/">&larr;- Back</a>
+            <% if(article != null) { %>
+                <h2><%- article.title %></h2>
+                <p><%- article.description %></p>
+            <% } else { %>
+                No posts found.
+            <% } %>
         </div>
-    </div>  
+    </div>
 </body>
 </html> 

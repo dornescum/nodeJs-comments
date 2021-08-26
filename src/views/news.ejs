@@ -16,10 +16,13 @@
 
     <div class="wrapper">
         <div class="news">
-            <%console.log(articles) %>
-                <%articles.map((el)=>{ %>
-                    return <p> <%-el.title.rendered%> </p>
-               <% }) %>
+            <% articles.forEach(function(article, index) { %>
+                <a href="<%- article.url %>" class="news__card">
+                    <img src="<%- article.urlToImage %>" alt="<%- article.title %>">
+                    <h2><%- article.title %></h2>
+                    <p><%- article.description %></p>
+                </a>
+            <% }) %>
         </div>
     </div>
 </body>

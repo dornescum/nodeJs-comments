@@ -1,16 +1,16 @@
 const express = require('express')
 const newsRouter = express.Router()
 const axios = require('axios')
-const url =`https://raddy.co.uk/wp-json/wp/v2/posts/`
+// const url =`https://raddy.co.uk/wp-json/wp/v2/posts/`
 //     `https://jsonplaceholder.typicode.com/comments`
-// const url =`https://newsapi.org/v2/top-headlines?country=us&apiKey=86c7427b19bc447aa64c4f2802cbb81c`
+const url =`https://newsapi.org/v2/top-headlines?country=us&apiKey=86c7427b19bc447aa64c4f2802cbb81c`
 
 
 newsRouter.get('', async(req, res) => {
     try {
         const newsAPI = await axios.get(url)
         // console.log(newsAPI.data)
-        res.render('news', { articles : newsAPI.data })
+        res.render('news', { articles : newsAPI.data.articles })
     } catch (err) {
         if(err.response) {
             res.render('news', { articles : null })
@@ -30,17 +30,18 @@ newsRouter.get('/:id', async(req, res) => {
     let articleID = req.params.id
 
     try {
-        const newsAPI = await axios.get(`https://newsapi.org/v2/top-headlines?country=us&apiKey=86c7427b19bc447aa64c4f2802cbb81c${articleID}`)
-        res.render('newsSingle', { article : newsAPI.data })
+        const newsAPI = await axios.get(`https://newsapi.org/v2/top-headlines?country=us&apiKey=86c7427b19bc447aa64c4f2802cbb81c/${articleID}`)
+        console.log(newsAPI)
+        res.render('newsSingle', { article : newsAPI.data.articles })
     } catch (err) {
         if(err.response) {
             res.render('newsSingle', { article : null })
             console.log(err.response.data)
             console.log(err.response.status)
             console.log(err.response.headers)
-        } else if(err.requiest) {
+        } else if(err.request) {
             res.render('newsSingle', { article : null })
-            console.log(err.requiest)
+            console.log(err.request)
         } else {
             res.render('newsSingle', { article : null })
             console.error('Error', err.message)
@@ -60,7 +61,7 @@ newsRouter.post('', async(req, res) => {
             console.log(err.response.data)
             console.log(err.response.status)
             console.log(err.response.headers)
-        } else if(err.requiest) {
+        } else if(err.request) {
             res.render('newsSearch', { articles : null })
             console.log(err.requiest)
         } else {
