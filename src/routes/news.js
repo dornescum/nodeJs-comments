@@ -26,11 +26,12 @@ newsRouter.get('', async(req, res) => {
         }
     }
 })
-newsRouter.get('/:id', async(req, res) => {
-    let articleID = req.params.id
 
+newsRouter.get('/:id', async(req, res) => {
+    let articleID = req.params.id;
+    console.log(articleID)
     try {
-        const newsAPI = await axios.get(`https://newsapi.org/v2/top-headlines?country=us&apiKey=86c7427b19bc447aa64c4f2802cbb81c/${articleID}`)
+        const newsAPI = await axios.get(`url/${articleID}`)
         console.log(newsAPI)
         res.render('newsSingle', { article : newsAPI.data.articles })
     } catch (err) {
