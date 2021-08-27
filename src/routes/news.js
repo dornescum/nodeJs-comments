@@ -1,9 +1,10 @@
 const express = require('express')
 const newsRouter = express.Router()
 const axios = require('axios')
+const apiKey = '86c7427b19bc447aa64c4f2802cbb81c'
 // const url =`https://raddy.co.uk/wp-json/wp/v2/posts/`
 //     `https://jsonplaceholder.typicode.com/comments`
-const url =`https://newsapi.org/v2/top-headlines?country=us&apiKey=86c7427b19bc447aa64c4f2802cbb81c`
+const url =`https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`
 
 
 newsRouter.get('', async(req, res) => {
@@ -29,7 +30,7 @@ newsRouter.get('', async(req, res) => {
 
 newsRouter.get('/:id', async(req, res) => {
     let articleID = req.params.id;
-    console.log(articleID)
+    // console.log(typeof articleID)
     try {
         const newsAPI = await axios.get(`url/${articleID}`)
         console.log(newsAPI)
