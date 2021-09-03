@@ -1,17 +1,30 @@
 const express = require('express')
 const newsRouter = express.Router()
 const axios = require('axios')
-const apiKey = '86c7427b19bc447aa64c4f2802cbb81c'
+// news api
+const apiKey = '86c7427b19bc447aa64c4f2802cbb81c';
+const guardianApi ='59482159-77b5-47df-9a0c-7acea01f94ee';
+// spoonacular
+// const apiKey = '97b53cc1bc194de6bc68590469afb5dc';
 // const url =`https://raddy.co.uk/wp-json/wp/v2/posts/`
 //     `https://jsonplaceholder.typicode.com/comments`
-const url =`https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`
+
+
+const url =`https://newsapi.org/v2/top-headlines?country=ro&apiKey=${apiKey}`
+const guardianUrl = `https://content.guardianapis.com/search?api-key=${guardianApi}`;
+
+
+// const url =`https://api.spoonacular.com/food/products/search?query=yogurt&apiKey=${apiKey}`
 
 
 newsRouter.get('', async(req, res) => {
     try {
-        const newsAPI = await axios.get(url)
-        // console.log(newsAPI.data)
-        res.render('news', { articles : newsAPI.data.articles })
+        // const newsAPI = await axios.get(url)
+        const newsAPI = await axios.get(guardianUrl)
+        console.log(newsAPI.data.response.results)
+        // res.render('news', { articles : newsAPI.data.articles })
+        res.render('news', { articles : newsAPI.data.response.results})
+        // res.render('news', { products : newsAPI.products })
     } catch (err) {
         if(err.response) {
             res.render('news', { articles : null })
@@ -55,7 +68,8 @@ newsRouter.get('/:id', async(req, res) => {
 newsRouter.post('', async(req, res) => {
     let search = req.body.search
     try {
-        const newsAPI = await axios.get(`https://raddy.co.uk/wp-json/wp/v2/posts?search=${search}`)
+        // const newsAPI = await axios.get(`https://raddy.co.uk/wp-json/wp/v2/posts?search=${search}`)
+        const newsAPI = await axios.get(`url/?search=${search}`)
         res.render('newsSearch', { articles : newsAPI.data })
     } catch (err) {
         if(err.response) {
